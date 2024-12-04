@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Códigos Disponibles</title>
+    <style>
+        #codigoDisplay {
+            opacity: 0; /* Comienza oculto */
+            transition: opacity 1s; /* Transición de opacidad */
+        }
+        .breathing {
+            animation: breathing 2s infinite; /* Efecto de respiración */
+        }
+        @keyframes breathing {
+            0%, 100% {
+                opacity: 0; /* Totalmente oculto */
+            }
+            50% {
+                opacity: 1; /* Totalmente visible */
+            }
+        }
+    </style>
+    <script>
+        async function obtenerCodigo() {
+            // Muestra el mensaje de "Generando código..."
+            const displayElement = document.getElementById('codigoDisplay');
+            displayElement.innerText = "Generando código...";
+            displayElement.classList.add('breathing');
+
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwJZPfIKweJrMwCHPnK5dC0yDYsOThEQIEjsSYyfeCaXkt4BNyNLM48bX2G8aYKWH_Z5Q/exec');
+                const codigo = await response.text();
+
+                // Detiene el efecto de respiración y muestra el código obtenido
+                displayElement.classList.remove('breathing');
+                displayElement.innerText = codigo;
+                displayElement.style.opacity = '1'; // Asegúrate de que esté visible
+            } catch (error) {
+                displayElement.classList.remove('breathing');
+                console.error("Error al obtener el código:", error);
+                displayElement.innerText = "Error al cargar el código.";
+                displayElement.style.opacity = '1'; // Asegúrate de que esté visible
+            }
+        }
+
+        // Llama a la función al cargar la página
+        window.onload = obtenerCodigo;
+    </script>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="container text-center">
+        <h1 class="display-4" style="font-weight: 600">¡Reclama este código en tu tienda más cercana!</h1>
+        <p class="lead ; margin-bottom: 30px;">Acércate a tu tienda más cercana y enseña tu código de 10% de descuento</p>
+        <h2 id="codigoDisplay" class="mt-4"></h2> <!-- Código en negrita -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
